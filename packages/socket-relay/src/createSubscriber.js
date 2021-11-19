@@ -46,7 +46,7 @@ const createSubscriber = (
   {text: operation},
   variables,
   cacheConfig,
-  {onError: OnUnrecoverableError, onNext}
+  observer //{onError: OnUnrecoverableError, onNext}
 ) => {
   // we need to place this logic here and not in ensureIsSubscription as if we
   // do so, then flow is not able to infer we are validating operation
@@ -61,9 +61,8 @@ const createSubscriber = (
   const deferred = createDeferred();
 
   const observer = {
-    onAbort: onAbort(deferred, OnUnrecoverableError),
+    onAbort: onAbort(deferred),
     onError: onRecoverableError,
-    onResult: (onNext: any),
     onStart: onStart(deferred)
   };
 
